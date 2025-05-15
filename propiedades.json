@@ -1,0 +1,20 @@
+[
+  {
+    "titulo": "Casa en San Pedro",
+    "descripcion": "3 recámaras, 2.5 baños, jardín, 2 estacionamientos.",
+    "precio": "$5,500,000 MXN",
+    "ubicacion": "San Pedro Garza García",
+    "imagen": "https://via.placeholder.com/400x250?text=Casa+San+Pedro",
+    "video": "https://www.youtube.com/embed/VIDEO_ID",
+    "pdf": "https://example.com/folleto-casa.pdf"
+  },
+  {
+    "titulo": "Departamento en Valle Oriente",
+    "descripcion": "2 recámaras, 2 baños, vista panorámica, amenidades de lujo.",
+    "precio": "$3,200,000 MXN",
+    "ubicacion": "Valle Oriente, Monterrey",
+    "imagen": "https://via.placeholder.com/400x250?text=Depto+Valle+Oriente",
+    "video": "",
+    "pdf": ""
+  }
+]
