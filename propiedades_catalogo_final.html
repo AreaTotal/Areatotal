@@ -1,0 +1,55 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Propiedades en catálogo</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 font-sans p-4">
+
+  <h1 class="text-3xl font-bold text-center mb-6">Propiedades disponibles</h1>
+  <div id="contenedor" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+
+  <script>
+    const url = "https://script.google.com/macros/s/AKfycbxyY8i5vppJEXUKZY2kaneL6_dkbuu4rCvFqIW5C8FLi9_qduUBZa6MIc7Kykew2TKc8Q/exec";
+
+    async function cargarPropiedades() {
+      const contenedor = document.getElementById("contenedor");
+      try {
+        const res = await fetch(url);
+        const propiedades = await res.json();
+
+        propiedades.forEach(prop => {
+          const tarjeta = document.createElement("div");
+          tarjeta.className = "bg-white p-4 rounded shadow";
+
+          tarjeta.innerHTML = `
+            <img src="${prop.imagen}" alt="Imagen" class="w-full h-48 object-cover mb-2 rounded">
+            <h2 class="text-xl font-bold">${prop.titulo}</h2>
+            <p class="text-sm text-gray-600 mb-1">${prop.ubicacion}</p>
+            <p class="text-lg font-semibold text-blue-600 mb-2">$${prop.precio}</p>
+            <ul class="text-sm text-gray-700 mb-2">
+              <li>🏡 Tipo: ${prop.tipo}</li>
+              <li>📐 ${prop.m2_construidos} m² construidos / ${prop.m2_terreno} m² terreno</li>
+              <li>🛏 ${prop.recamaras} recámaras · 🚿 ${prop.banos} baños · 🚗 ${prop.estacionamientos} estacionamientos</li>
+              <li>📄 Estatus: ${prop.estatus}</li>
+            </ul>
+            ${prop.pdf ? `<a href="${prop.pdf}" target="_blank" class="text-blue-500 underline">Ver ficha PDF</a>` : ""}
+            ${prop.video ? `<a href="${prop.video}" target="_blank" class="ml-4 text-blue-500 underline">Ver video</a>` : ""}
+          `;
+
+          contenedor.appendChild(tarjeta);
+        });
+
+      } catch (error) {
+        contenedor.innerHTML = "<p class='text-red-500'>Error al cargar propiedades.</p>";
+      }
+    }
+
+    cargarPropiedades();
+  </script>
+
+</body>
+</html>
