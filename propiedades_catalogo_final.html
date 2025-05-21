@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -25,17 +24,21 @@
           const tarjeta = document.createElement("div");
           tarjeta.className = "bg-white p-4 rounded shadow";
 
+          // Convertir la columna "imagenes" en HTML
+          let imagenesHTML = "";
+          if (prop.imagenes) {
+            const urls = prop.imagenes.split(",");
+            imagenesHTML = urls.map(url => `
+              <img src="${url.trim()}" alt="Imagen" class="w-full h-48 object-cover mb-2 rounded">
+            `).join("");
+          }
+
           tarjeta.innerHTML = `
-            <img src="${prop.imagen}" alt="Imagen" class="w-full h-48 object-cover mb-2 rounded">
+            ${imagenesHTML}
             <h2 class="text-xl font-bold">${prop.titulo}</h2>
             <p class="text-sm text-gray-600 mb-1">${prop.ubicacion}</p>
-            <p class="text-lg font-semibold text-blue-600 mb-2">$${prop.precio}</p>
-            <ul class="text-sm text-gray-700 mb-2">
-              <li>🏡 Tipo: ${prop.tipo}</li>
-              <li>📐 ${prop.m2_construidos} m² construidos / ${prop.m2_terreno} m² terreno</li>
-              <li>🛏 ${prop.recamaras} recámaras · 🚿 ${prop.banos} baños · 🚗 ${prop.estacionamientos} estacionamientos</li>
-              <li>📄 Estatus: ${prop.estatus}</li>
-            </ul>
+            <p class="text-lg font-semibold text-blue-600 mb-2">${prop.precio}</p>
+            <p class="text-sm text-gray-700 mb-2">${prop.descripcion}</p>
             ${prop.pdf ? `<a href="${prop.pdf}" target="_blank" class="text-blue-500 underline">Ver ficha PDF</a>` : ""}
             ${prop.video ? `<a href="${prop.video}" target="_blank" class="ml-4 text-blue-500 underline">Ver video</a>` : ""}
           `;
@@ -45,6 +48,7 @@
 
       } catch (error) {
         contenedor.innerHTML = "<p class='text-red-500'>Error al cargar propiedades.</p>";
+        console.error("Error al cargar propiedades:", error);
       }
     }
 
@@ -53,3 +57,4 @@
 
 </body>
 </html>
+
