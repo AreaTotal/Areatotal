@@ -14,6 +14,15 @@
   <script>
     const url = "https://script.google.com/macros/s/AKfycbxYjCpwNV0H5ueyboSyQZVjP5mm62zjzTXfb5KniI7I1RgBexbMvqZtq0Ss9UMO5j00Zg/exec";
 
+    const carruseles = {};
+
+    function cambiarImagen(id, direccion) {
+      const carrusel = carruseles[id];
+      carrusel.actual = (carrusel.actual + direccion + carrusel.imagenes.length) % carrusel.imagenes.length;
+      const img = document.querySelector(`#img-${id}`);
+      img.src = carrusel.imagenes[carrusel.actual];
+    }
+
     async function cargarPropiedades() {
       const contenedor = document.getElementById("contenedor");
       try {
@@ -25,23 +34,21 @@
           tarjeta.className = "bg-white p-4 rounded shadow";
 
           let imagenesHTML = "";
-          let carruselID = Math.random().toString(36).substr(2, 9);
+          const id = Math.random().toString(36).substr(2, 9);
 
           if (prop.imagenes) {
             const urls = prop.imagenes.split(",").map(u => u.trim());
+            carruseles[id] = {
+              imagenes: urls,
+              actual: 0
+            };
+
             imagenesHTML = `
-              <div id="carrusel-${carruselID}" class="relative mb-2">
-                <img src="${urls[0]}" class="w-full h-48 object-cover rounded imagen-activa">
-                <button onclick="cambiarImagen('${carruselID}', -1)" class="absolute left-0 top-1/2 transform -translate-y-1/2 bg-white px-2 py-1 text-sm shadow">‹</button>
-                <button onclick="cambiarImagen('${carruselID}', 1)" class="absolute right-0 top-1/2 transform -translate-y-1/2 bg-white px-2 py-1 text-sm shadow">›</button>
+              <div class="relative mb-2">
+                <img id="img-${id}" src="${urls[0]}" class="w-full h-48 object-cover rounded">
+                <button onclick="cambiarImagen('${id}', -1)" class="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white px-2 py-1 text-sm rounded shadow">‹</button>
+                <button onclick="cambiarImagen('${id}', 1)" class="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white px-2 py-1 text-sm rounded shadow">›</button>
               </div>
-              <script>
-                window.carruseles = window.carruseles || {};
-                carruseles['${carruselID}'] = {
-                  imagenes: ${JSON.stringify(urls)},
-                  actual: 0
-                };
-              </script>
             `;
           }
 
@@ -73,16 +80,5 @@
     cargarPropiedades();
   </script>
 
-  <script>
-    function cambiarImagen(id, direccion) {
-      const carrusel = carruseles[id];
-      carrusel.actual = (carrusel.actual + direccion + carrusel.imagenes.length) % carrusel.imagenes.length;
-      const contenedor = document.getElementById(`carrusel-${id}`);
-      const img = contenedor.querySelector(".imagen-activa");
-      img.src = carrusel.imagenes[carrusel.actual];
-    }
-  </script>
-
 </body>
 </html>
-
